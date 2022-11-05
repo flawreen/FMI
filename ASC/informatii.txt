@@ -1,0 +1,11 @@
+lab = 40% din nota finala
+	2p colocviu sapt 13-14
+	1p proiect
+	1p 5 teste (lab 2, 3, 4, 5, 6) fiecare 10 min
+	media la cele 5 teste minim 5
+examen = 60% nota finala
+0p oficiu
+
+cs.unibuc.ro/crusu/asc - modele teme si teste din anii anteriori
+tinyurl.com/asc-lab-2019 - materiale
+

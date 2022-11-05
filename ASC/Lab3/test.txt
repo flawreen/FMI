@@ -1,0 +1,106 @@
+eax = 0x80000000 = 2^31
+ebx = 0x8 = 2^3
+mul %ebx
+eax = 0
+edx = 4
+
+
+
+edx = 0
+eax = 37
+ebx = 15
+div ebx??
+edx = 7
+eax = 2
+
+
+
+edx = 1
+eax = 37
+ebx = 15
+div ebx??
+eax = 0x2aaaaa...d
+edx = 0x3
+
+
+
+x = 17
+y = 6
+x1 = 5
+y1 = 9
+z = .space 4
+
+eax = 17
+ebx = 6
+cmp eax, ebx // FALS
+jge et1 
+
+eax = 5
+cmp eax, ebx // FALS
+jle el
+
+ebx = 17
+ebx = 17 - 5 = 12
+jmp final
+
+final:
+z = ebx = 12
+
+
+
+etb, eth, eto, etd
+
+
+
+x = 5
+y = 5
+s = 0
+
+ecx = 5
+ecx -= 5
+ecx = 0
+s = ecx + 0 = 0 + 0
+
+ecx = 0, -1, -2, -3, ....., 0xffffffff
+
+
+
+eax = 2
+ebx = 3
+ebx = 3 + 2 = 5
+mul ebx
+edx = 0
+divl 3
+add eax, edx
+
+
+
+
+str1 = abc
+str2 = 1
+
+movl $4, %eax
+movl $1, %ebx
+movl $str1, %ecx
+movl $4, %edx
+int $0x80
+
+afiseaza: abc1, ca la edx s-au dat 4B, si a luat in continuare din memorie adica str2 ca era urmatorul
+
+
+
+
+.data
+    x: .long 0x04030201
+    y: .long 0x08070605
+.text
+.globl main
+main:
+    mov x, %eax
+    mov y, %ah (e un movb, ah si al au 1B)
+
+eax = ?
+
+eax = 0x0403 02 01
+             AH AL
+ devine      05
