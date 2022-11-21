@@ -1,0 +1,31 @@
+alternativa accesare vector: movl v(,%ecx, 4), %ebx dar nu e preferata
+printf(formatString, arg....): %d - int; %f - float; %s - siruri; %ld - int de tip long
+
+printf("S-au citit %d si %d\n", x, y);
+push y
+push x
+push $formatStr
+call printf
+popl %ebx
+popl %ebx
+popl %ebx
+!!!!!!!!! Pentru pop pot folosi registru, sau intr-o variabila vpop: .space 4
+!!!!!!!!! push si pop merg doar pe 32bit
+
++++ Apelul procedurii scanf
+!!!!!!!!! scanf(formatScanf, arg....); formatScanf este ca cel de la printf
+
++++ Citirea intregilor
+ex1.s
+
+scanf("%d %d", &n, &m) -> 3 4
+scanf("%d;%d", &n, &m) -> 3;4
+
++++ Siruri de caractere
+= Array-uri de elemente de tip .byte
+!!!!!!!!!! parcurgere -> ex2.s
+verificam daca caracterul este A cu codul asciii sau $'A'
+
+ex: Se citeste de la STDOUTPUT(prin apel scanf) un sir de caractere fara spatii de max 50 caractere
+SSD numarul de vocale si sa se afiseze acest numar la STDOUTPUT printr-un apel la printf
+
