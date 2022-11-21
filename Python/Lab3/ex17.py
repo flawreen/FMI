@@ -13,7 +13,7 @@ lista_poz = [(0, 0), (0, 1), ..., (0, N-2), (0, N-1), (1, N-1), ..., (N-2, N-1),
 spirala = [1, 2, 3, 4, 5, 10, 15, 20, 25, 24, 23, 22, 21, 16, 11, 6, 7, 8, 9, 14, 19, 18, 17, 12, 13]
 """
 def printMatrix(matrix):
-    print('\n'.join(' '.join([f"{str(x):4}" for x in linie]) for linie in matrix))
+    print('\n'.join(''.join([f"{x:4}" for x in linie]) for linie in matrix))
 
 def genTuples(n, k, ls):
     if n < k:
