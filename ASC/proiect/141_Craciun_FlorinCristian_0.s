@@ -1,6 +1,9 @@
 .data
     N: .space 4
     i: .space 4
+    a: .space 4
+    b: .space 4
+    k: .space 4
     nr: .space 4
     nr_cerinta: .space 4
     legaturi: .space 400
@@ -9,6 +12,7 @@
     mres: .space 40000
     citire: .asciz "%d"
     afisare: .asciz "%d "
+    rezult: .asciz "%d"
     endl: .asciz "\n"
     trash: .space 4
 .text
@@ -17,6 +21,9 @@ matrix_mult:
     movl %esp, %ebp
     movl 8(%ebp), %edi
     movl 12(%ebp), %esi
+    pushl %ebx
+    pushl %edi
+    pushl %esi
 
     xorl %ecx, %ecx
     loopk:
@@ -64,8 +71,6 @@ matrix_mult:
                 popl %edx
                 addl %edx, (%edi, %eax, 4)
                 movl 8(%ebp), %edi
-                
-
                 popl %edx
                 incl %edx
             jmp loopj
@@ -78,6 +83,9 @@ matrix_mult:
     jmp loopk
 
     final:
+    popl %esi
+    popl %edi
+    popl %ebx
     popl %ebp
     ret
 .globl main
@@ -172,7 +180,33 @@ alege_cerinta:
     movl nr_cerinta, %ecx
     cmp $1, %ecx
     je afisare_matrice
+
+    pushl $k
+    pushl $citire
+    call scanf
+    popl trash
+    popl trash
+
+    pushl $a
+    pushl $citire
+    call scanf
+    popl trash
+    popl trash
+
+    pushl $b
+    pushl $citire
+    call scanf
+    popl trash
+    popl trash
+
+    movl $1, %ebx
+inmultire:
+    cmp k, %ebx
+    je rezultat
     
+    cmp $1, %ebx
+    jg reset_mat
+    apelare:
     pushl N
     pushl $mres
     pushl $m2
@@ -182,67 +216,52 @@ alege_cerinta:
     popl trash
     popl trash
     popl trash
+    jmp pas_urmator
 
-    # xorl %ecx, %ecx
-    # loopk:
-    #     cmp N, %ecx
-    #     je afisare_matrice
-        
-    #     xorl %ebx, %ebx
-    #     loopi:
-    #         cmp N, %ebx
-    #         je gatai
+    reset_mat:
+    movl $m1, %edi
+    movl $mres, %esi
+    movl N, %eax
+    xorl %edx, %edx
+    mull N
+    xorl %edx, %edx
+    movl $4, %ecx
+    mull %ecx
+    xorl %ecx, %ecx
+    resetare_matrice:
+    cmp %eax, %ecx
+    je apelare
 
-    #         xorl %edx, %edx
-    #         loopj:
-    #             cmp N, %edx
-    #             je gataj
+    movl (%esi, %ecx, 1), %edx
+    movl %edx, (%edi, %ecx, 1)
+    movl $0, (%esi, %ecx, 1)
 
-    #             movl %ecx, %eax
-    #             pushl %edx
-    #             xorl %edx, %edx
-    #             mull N
-    #             popl %edx
-    #             addl %edx, %eax
+    addl $4, %ecx
+    jmp resetare_matrice
+    pas_urmator:
+    incl %ebx
+jmp inmultire
 
-    #             pushl %edx
-    #             pushl %ecx
-    #             movl (%edi, %eax, 4), %ecx
+rezultat:
+movl a, %eax
+xorl %edx, %edx
+mull N
+movl b, %edx
+addl %edx, %eax
+movl $mres, %edi
+movl (%edi, %eax, 4), %ecx
 
-    #             movl %edx, %eax
-                
-    #             xorl %edx, %edx
-    #             mull N
-    #             addl %ebx, %eax
-    #             movl (%esi, %eax, 4), %edx
-    #             movl %edx, %eax
-    #             xorl %edx, %edx
-    #             mull %ecx
-    #             movl %eax, %edx
-    #             popl %ecx
+pushl %ecx
+pushl $rezult
+call printf
+popl trash
+popl trash
 
-    #             movl $mres, %edi
-    #             pushl %edx
-    #             movl %ecx, %eax
-    #             mull N
-    #             addl %ebx, %eax
-    #             popl %edx
-    #             addl %edx, (%edi, %eax, 4)
-    #             movl $m1, %edi
-                
+pushl $0
+call fflush
+popl trash
 
-    #             popl %edx
-    #             incl %edx
-    #         jmp loopj
-
-    #         gataj:
-    #         incl %ebx
-    #     jmp loopi
-    #     gatai:
-    #     incl %ecx
-    # jmp loopk
-
-
+jmp et_exit
 afisare_matrice:
 xorl %ecx, %ecx
 mov $mres, %edi
