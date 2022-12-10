@@ -13,105 +13,72 @@
     trash: .space 4
 .text
 matrix_mult:
-    subl $4, %esp
-    movl %ebp, 0(%esp)
+    pushl %ebp
     movl %esp, %ebp
-    subl $4, %esp
-    movl %ebx, -4(%ebp)
-    subl $4, %esp
-    movl %esi, -8(%ebp)
-    subl $4, %esp
-    movl %edi, -12(%ebp)
-
     movl 8(%ebp), %edi
     movl 12(%ebp), %esi
-    # 16(%ebp) - adresa lui mres
-    # 20(%ebp) - N
-    movl 20(%ebp), %eax
-    movl $4, %ebx
-    xorl %edx, %edx
-    mull %ebx
-    subl $4, %esp
-    movl %eax, -16(%ebp)  # 4*N -16
-    xorl %eax, %eax
 
-    fork:
-        test 20(%ebp), %eax
-        je sfarsit
-        subl $4, %esp
-        movl %eax, -20(%ebp)  # k -20
-        xorl %edx, %edx
-        mull -16(%ebp)  # %eax k * 4N 
-
+    xorl %ecx, %ecx
+    loopk:
+        cmp 20(%ebp), %ecx
+        je final
+        
         xorl %ebx, %ebx
-        fori:
-            test $1, %ebx
-            je fork
-            subl $4, %esp
-            movl %ebx, -24(%ebp)  # i -24
-            
+        loopi:
+            cmp 20(%ebp), %ebx
+            je gatai
+
             xorl %edx, %edx
-            forj:
-                test 20(%ebp), %edx
-                je fori
-                subl $4, %esp
-                movl %edx, -28(%ebp)  # j -28
+            loopj:
+                cmp 20(%ebp), %edx
+                je gataj
+
+                movl %ecx, %eax
+                pushl %edx
+                xorl %edx, %edx
+                mull 20(%ebp)
+                popl %edx
+                addl %edx, %eax
+
+                pushl %edx
+                pushl %ecx
+                movl (%edi, %eax, 4), %ecx
+
+                movl %edx, %eax
                 
-                addl -28(%ebp), %eax  # k * 4N + j
-                movl %eax, %ecx
-                movl -28(%ebp), %eax
                 xorl %edx, %edx
-                mull -16(%ebp)  # j * 4N
-                addl -24(%ebp), %eax  # j * 4N + i
+                mull 20(%ebp)
+                addl %ebx, %eax
+                movl (%esi, %eax, 4), %edx
+                movl %edx, %eax
+                xorl %edx, %edx
+                mull %ecx
+                movl %eax, %edx
+                popl %ecx
 
-                mov 8(%ebp), %edi
-                mov 12(%ebp), %esi
-                movl (%esi, %eax, 4), %ebx
-                movl (%edi, %ecx, 4), %eax
-                xorl %edx, %edx
-                mull %ebx
-
-                mov 16(%ebp), %edi
-                movl %eax, %ecx  # salvez in esi inmultirea
-                movl -16(%ebp), %eax
-                xorl %edx, %edx
-                mull -20(%ebp)  # k * 4N + i este mres[k][i]
-                addl -24(%ebp), %eax
+                movl 16(%ebp), %edi
+                pushl %edx
+                movl %ecx, %eax
+                mull 20(%ebp)
+                addl %ebx, %eax
+                popl %edx
+                addl %edx, (%edi, %eax, 4)
+                movl 8(%ebp), %edi
                 
-                movl -28(%ebp), %edx
-                test $0, %edx
-                jg suma
-                movl $1, (%edi, %eax, 4)  # j=0 -> initializez mres[k][i]
-                suma:
-                movl (%edi, %eax, 4), %ebx
-                addl %ecx, %ebx
-                movl $1, (%edi, %eax, 4)
 
-                movl -28(%ebp), %edx
-                addl $4, %esp
+                popl %edx
                 incl %edx
-            jmp forj
+            jmp loopj
 
-            movl -24(%ebp), %ebx
-            addl $4, %esp
+            gataj:
             incl %ebx
-        jmp fori
+        jmp loopi
+        gatai:
+        incl %ecx
+    jmp loopk
 
-        movl -20(%ebp), %eax
-        addl $4, %esp
-        incl %eax
-    jmp fork
-
-    sfarsit:
-    addl $4, %esp  # sterg 4 * N de la poz -16
-    movl -12(%ebp), %edi
-    addl $4, %esp
-    movl -8(%ebp), %esi
-    addl $4, %esp
-    movl -4(%ebp), %ebx
-    addl $4, %esp
-    movl 0(%ebp), %ebp
-    addl $4, %esp
+    final:
+    popl %ebp
     ret
 .globl main
 
@@ -158,16 +125,15 @@ citire_matrice:
     je alege_cerinta
     
     movl N, %eax
-    movl $4, %ebx
-    mull %ebx
-    mull %ecx  # i * 4N pentru matrice
+    xorl %edx, %edx
+    mull %ecx  # i * N pentru matrice
     movl %eax, i
 
     lea legaturi, %esi
     movl (%esi, %ecx, 4), %ebx
     pushl %ecx
     xorl %ecx, %ecx
-    lea m2, %esi
+    mov $m2, %esi
     initializare_linie:
         cmp N, %ecx
         je citire_noduri
@@ -208,32 +174,84 @@ alege_cerinta:
     je afisare_matrice
     
     pushl N
-    pushl mres
-    pushl m2
-    pushl m1
+    pushl $mres
+    pushl $m2
+    pushl $m1
     call matrix_mult
     popl trash
     popl trash
     popl trash
     popl trash
-    
-    # afisare k
 
-    lea mres, %edi
-    jmp afisare_matrice
+    # xorl %ecx, %ecx
+    # loopk:
+    #     cmp N, %ecx
+    #     je afisare_matrice
+        
+    #     xorl %ebx, %ebx
+    #     loopi:
+    #         cmp N, %ebx
+    #         je gatai
 
-    jmp et_exit
+    #         xorl %edx, %edx
+    #         loopj:
+    #             cmp N, %edx
+    #             je gataj
+
+    #             movl %ecx, %eax
+    #             pushl %edx
+    #             xorl %edx, %edx
+    #             mull N
+    #             popl %edx
+    #             addl %edx, %eax
+
+    #             pushl %edx
+    #             pushl %ecx
+    #             movl (%edi, %eax, 4), %ecx
+
+    #             movl %edx, %eax
+                
+    #             xorl %edx, %edx
+    #             mull N
+    #             addl %ebx, %eax
+    #             movl (%esi, %eax, 4), %edx
+    #             movl %edx, %eax
+    #             xorl %edx, %edx
+    #             mull %ecx
+    #             movl %eax, %edx
+    #             popl %ecx
+
+    #             movl $mres, %edi
+    #             pushl %edx
+    #             movl %ecx, %eax
+    #             mull N
+    #             addl %ebx, %eax
+    #             popl %edx
+    #             addl %edx, (%edi, %eax, 4)
+    #             movl $m1, %edi
+                
+
+    #             popl %edx
+    #             incl %edx
+    #         jmp loopj
+
+    #         gataj:
+    #         incl %ebx
+    #     jmp loopi
+    #     gatai:
+    #     incl %ecx
+    # jmp loopk
+
 
 afisare_matrice:
 xorl %ecx, %ecx
+mov $mres, %edi
 loop:
     cmp N, %ecx
     je et_exit
     
     movl N, %eax
-    movl $4, %ebx
-    mull %ebx
-    mull %ecx  # i * 4N pentru matrice
+    mull %ecx  # i * N pentru matrice
     movl %eax, i
 
     movl (%edi, %ecx, 4), %ebx
