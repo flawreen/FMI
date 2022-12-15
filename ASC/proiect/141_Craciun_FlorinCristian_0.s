@@ -264,7 +264,7 @@ popl trash
 jmp et_exit
 afisare_matrice:
 xorl %ecx, %ecx
-mov $mres, %edi
+mov $m1, %edi
 loop:
     cmp N, %ecx
     je et_exit
