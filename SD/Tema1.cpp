@@ -48,7 +48,7 @@ void inserat(Node *start, int valoare, int index) {
 	int i = 0, n = list_length(start);
 	Node *p = start;
 	if (index == 0) {
-		Node* q = new Node();
+		Node *q = new Node();
 		q->val = valoare;
 		q->next = head;
 		head->prev = q;
@@ -159,16 +159,39 @@ void sterg_valoare(Node *start, int valoare) {
 	}
 }
 
+//int swapNode( node *&head * &first, node * &second) {
+//     node *firstprev=NULL;
+//     node*secprev=NULL;
+//     node*current=head;
+//     while(current->next!=first)
+//     {
+//        current=current->next;
+//     }
+//     firstprev=current;
+//     while(current->next!=second)
+//     {
+//        current=current->next;
+//     }
+//    int tempValue = first->value;
+//    first->value = second->value;
+//    second->value = tempValue;
+//
+//    firstprev->next=second;
+//    secprev->next=first;
+//
+
+
 int main() {
 	int x, n, i = 0, nr_exercitiu = 1;
 	head = new Node();
-	cout << "Numarul de elemente: ";
-	cin >> n;
 	cout << "Numarul exercitiului: ";
 	cin >> nr_exercitiu;
 
+	// Exercitiul 1
 	if (nr_exercitiu == 1) {
 		// Citesc lista
+		cout << "Numarul de elemente: ";
+		cin >> n;
 		cin >> x;
 		++i;
 		head->val = x;
@@ -191,8 +214,12 @@ int main() {
 		}
 		cout << "Exercitiul 1: ";
 		afisare(head);
-	} else if (nr_exercitiu == 2) {
-		Node* p;
+	}
+		// Exercitiul 2
+	else if (nr_exercitiu == 2) {
+		cout << "Numarul de elemente: ";
+		cin >> n;
+		Node *p;
 		int j;
 		while (i < n) { // citesc i numere
 			j = 0; // cu j retin index-ul la care am ajuns cand parcurg lista
@@ -220,10 +247,188 @@ int main() {
 			++i;
 		}
 		afisare(head);
-	} else if (nr_exercitiu == 3) {
+	}
+		// Exercitiul 3 fara bonus
+	else if (nr_exercitiu == 3) {
+		cout << "Numarul de elemente: ";
+		cin >> n;
+		cin >> x;
+		++i;
+		head->val = x;
+		while (i < n) { // citesc i numere
+			cin >> x;
+			adaugare(head, x);
+			++i;
+		}
+		cout << "Lista introdusa: ";
+		afisare(head);
 
+		// Determin ultimul element din lista
+		Node *end = head;
+		Node *start = head;
+		while (end->next != nullptr) end = end->next;
+
+		Node *lista_inversata = new Node(); // Creez lista noua
+		// Parcurg lista initiala de la final si adaug pe rand la lista_inversata
+		lista_inversata->val = end->val;
+		end = end->prev;
+		while (end != nullptr) {
+			adaugare(lista_inversata, end->val);
+			end = end->prev;
+		}
+
+		cout << "Lista dupa inversare: ";
+		afisare(lista_inversata);
+	}
+	// Exercitiul 4
+	else if (nr_exercitiu == 4) {
+		Node *lista1 = new Node();
+		Node *lista2 = new Node();
+		Node *lista3 = new Node();
+		// Citesc prima lista
+		cout << "Numarul de elemente lista 1: ";
+		cin >> n;
+		cin >> x;
+		lista1->val = x;
+		i = 1;
+		while (i < n) {
+			cin >> x;
+			adaugare(lista1, x);
+			++i;
+		}
+		// Citesc a doua lista
+		cout << "Numarul de elemente lista 2: ";
+		cin >> n;
+		cin >> x;
+		lista2->val = x;
+		i = 1;
+		while (i < n) {
+			cin >> x;
+			adaugare(lista2, x);
+			++i;
+		}
+		cout << "Lista 1: ";
+		afisare(lista1);
+		cout << "Lista 2: ";
+		afisare(lista2);
+		// Incep interclasarea
+		Node *p = lista1, *q = lista2;
+		while (p != nullptr && q != nullptr) {
+			if (p->val < q->val) {
+				if (p == lista2) {
+					lista3->val = p->val;
+					p = p->next;
+					continue;
+				}
+				adaugare(lista3, p->val);
+				p = p->next;
+			} else {
+				if (q == lista2) {
+					lista3->val = q->val;
+					q = q->next;
+					continue;
+				}
+				adaugare(lista3, q->val);
+				q = q->next;
+			}
+		}
+		while (p != nullptr) {
+			adaugare(lista3, p->val);
+			p = p->next;
+		}
+		while (q != nullptr) {
+			adaugare(lista3, q->val);
+			q = q->next;
+		}
+
+		cout << "Listele interclasate: ";
+		afisare(lista3);
+	}
+	else if (nr_exercitiu == 5) {
+		Node *lista1 = new Node();
+		Node *lista2 = new Node();
+		Node *lista3 = new Node();
+		// Citesc prima lista
+		cout << "Numarul de cifre pentru primul numar: ";
+		cin >> n;
+		cin >> x;
+		lista1->val = x;
+		i = 1;
+		while (i < n) {
+			cin >> x;
+			adaugare(lista1, x);
+			++i;
+		}
+		// Citesc a doua lista
+		cout << "Numarul de cifre pentru al doilea numar: ";
+		cin >> n;
+		cin >> x;
+		lista2->val = x;
+		i = 1;
+		while (i < n) {
+			cin >> x;
+			adaugare(lista2, x);
+			++i;
+		}
+		cout << "Numarul 1: ";
+		afisare(lista1);
+		cout << "Numarul 2: ";
+		afisare(lista2);
+		// Incep suma
+		Node *p = lista1, *q = lista2;
+		int transport = 0, suma;
+		while (p != nullptr && q != nullptr) {
+			suma = p->val + q->val;
+			p = p->next;
+			q = q->next;
+			if (transport > 0) {
+				suma += transport;
+				transport = 0;
+			}
+			if (suma > 9) {
+				++transport;
+				suma %= 10;
+			}
+			adaugare(lista3, suma);
+		}
+		while (p != nullptr) {
+			suma = p->val;
+			p = p->next;
+			if (transport > 0) {
+				suma += transport;
+				transport = 0;
+			}
+			if (suma > 9) {
+				++transport;
+				suma %= 10;
+			}
+			adaugare(lista3, suma);
+		}
+		while (q != nullptr) {
+			suma = q->val;
+			q = q->next;
+			if (transport > 0) {
+				suma += transport;
+				transport = 0;
+			}
+			if (suma > 9) {
+				++transport;
+				suma %= 10;
+			}
+			adaugare(lista3, suma);
+		}
+		if (transport > 0) {
+			adaugare(lista3, transport);
+		}
+		sterg_coada(lista3);
+		afisare_invers(lista3);
 	}
 
+	/*
+	Exemplu1: 542 + 34 = 576 sau (2 → 4 → 5) + (4 → 3) = (6 → 7 → 5)
+	Exemplu2: 19 + 11 = 30 sau (9 → 1) + (1 → 1) = (0 → 3)
+	Exemplu3: 999 + 1 = 1000 sau (9 → 9 → 9) + (1) = (0 → 0 → 0 → 1)
+	 */
 
 	return 0;
 }
