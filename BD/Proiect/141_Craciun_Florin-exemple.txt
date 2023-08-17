@@ -1,0 +1,95 @@
+-- Ex 12
+
+-- Sa se afiseze utilizatorii care nu au abonamentul gratuit
+-- subcereri nesincronizate in clauza FROM
+SELECT utilizator_id, prenume
+FROM (select utilizator_id, prenume from utilizator where abonament_id > 1);
+
+
+--Sa se afiseze numarul de utilizatori ce au vizionat vreun film lansat in anul 2000
+-- grupari de date cu subcereri nesincronizate in care intervin cel putin 3 tabele, functii grup, filtrare la nivel de grupuri, o functie pe date calendaristice
+SELECT COUNT(*) AS NR_UTILIZATORI
+FROM UTILIZATOR
+WHERE utilizator_id IN (SELECT utilizator_id
+                        FROM ISTORIC_VIZIONARI
+                        WHERE film_id IN (SELECT film_id
+                                          FROM FILME
+                                          WHERE TO_CHAR(data_lansare, 'yyyy') LIKE '2000'))
+GROUP BY utilizator_id, prenume;
+
+
+-- Sa se afiseze utilizatorii ce au vizionat un serial thriller in luna iulie
+-- 2 functii pe siruri de caractere, 1 functie pe date calendaristice, subcereri sincronizate in care intervin cel putin 3 tabele
+select u.utilizator_id, upper(concat(u.prenume, concat(' ', u.nume)))
+from utilizator u
+where u.utilizator_id in
+      (select iv.utilizator_id
+       from istoric_vizionari iv
+       where extract(month from iv.data_vizioarii) = 7
+         and u.utilizator_id = iv.utilizator_id
+         and iv.serial_id in
+             (select s.seriale_id
+              from seriale s
+              where s.seriale_id = iv.serial_id
+                and s.seriale_id in (select g.serial_id
+                                     from genuri g
+                                     where g.serial_id = s.seriale_id
+                                       and g.nume_gen = 'Thriller')));
+
+-- Sa se afiseze pentru fiecare film data de lansare si daca este de actiune
+-- ordonari si nvl si decode
+select f.titlu,
+       f.data_lansare,
+       nvl(decode(g.nume_gen, 'Action', 'Film de actiune', null), 'Film non-actiune') as Tip_Film
+from filme f
+         join genuri g on g.film_id = f.film_id and f.film_id != 0
+order by f.film_id;
+
+
+-- Sa se afiseze pentru fiecare utilizator numarul de seriale si numarul de filme favorite insumate. (Exp: Daca are 2 seriale favorite, atunci se afiseaza ’doua’)
+-- clauza with si expresia case
+with nr_favorite as (select u.utilizator_id, count(f.favorite_id) as favorite
+                     from utilizator u
+                              join favorite f on f.utilizator_id = u.utilizator_id
+                     group by u.utilizator_id)
+select utilizator_id,
+       case favorite
+           when 1
+               then 'Una'
+           when 2
+               then 'Doua'
+           when 3
+               then 'Trei'
+           else 'Niciuna'
+           end Filme_Seriale_Favorite
+from nr_favorite;
+
+
+-- Sa se stearga abonamentele care nu sunt achizitionate de niciun utilizator
+
+delete
+from abonamente
+where abonament_id not in (select distinct abonament_id from utilizator);
+
+
+-- Abonamentul utilizatorilor ce au lasat recenzii de mai putin de 70 de caractere sa fie retrogradat la cel gratis
+
+
+update
+utilizator u
+set
+    abonament_id = 1
+where
+    u.utilizator_id in (select r.utilizator_id from recenzii r where length(r.text_evaluare) < 70);
+
+-- Sa se schimbe genul serialelor cu evaluarea 5 in Horror
+
+update
+genuri g
+set
+g.nume_gen = 'Horror'
+where
+g.serial_id in
+(select distinct r.serial_id
+from recenzii r
+where r.evaluare = 5 and r.serial_id <> 0);
