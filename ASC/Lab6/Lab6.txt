@@ -1,0 +1,32 @@
+Recapitulare lab5
+
+Conventiile de implementare
+1. arg e incarca pe stiva, de la dreapta la stanga
+2. val returnate de procedura vor fi puse in eax, ecx, edx 
+3. Reg %ebp trebuie utilizat in cadrul de apel pentru adresare constanta
+push %ebp
+movl %esp, %ebp
+// cod
+pop %ebp
+4. reg. ebx, edi, esi, ebp trb restaurati
+
+push x
+subl $-4, %esp
+movl x, 0(%esp)
+
+pop x
+movl 0(%esp), x
+addl $4, %esp
+
+
+
+
+Apeluri imbricate, apeluri recursive
+g(x) = x + 1
+f(x) = 2 * g(x)
+ex1.s
+
+
+
+
+
