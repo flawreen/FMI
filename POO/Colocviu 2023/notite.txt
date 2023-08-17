@@ -1,0 +1,18 @@
+- drumuri
+- contracte
+
+
+drum:
+denumire, lungime, nrTronsoane (>= 1)
+denumiri unice
+
+contract:
+id unic (generat automat) (numeric)
+nume string
+CIF string
+contract -> drum[tronson], cate un contract per tronson, asocierea se face in momentul citirii datelor
+
+* toate tronsoanele au lungime egala
+ = lungime / nrTronsoane
+
+ cost contract:
