@@ -1,0 +1,46 @@
+-- Ex 5
+-- SELECT first_name, job_id, employee_id, hire_date
+-- FROM EMPLOYEES;
+-- Ex 6
+-- SELECT first_name AS "nume", job_id AS "cod job", employee_id AS "cod", hire_date AS "data angajarii"
+-- FROM EMPLOYEES;
+-- Ex 7
+-- SELECT DISTINCT job_id FROM jobs
+-- Ex 8
+-- SELECT first_name || ' ' || last_name || ', ' || job_id AS "Angajat si titlu"
+-- FROM employees;
+-- Ex 10
+-- SELECT first_name, salary FROM employees
+-- WHERE salary > 2850
+-- Ex 11
+-- SELECT first_name, department_id FROM employees
+-- WHERE employee_id = 104
+-- Ex 13
+-- SELECT first_name, job_id, hire_date FROM EMPLOYEES
+-- WHERE hire_date BETWEEN '20-FEB-1987' AND '1-MAY-1989'
+-- ORDER BY hire_date ASC;
+-- Ex 17
+-- SELECT first_name, hire_date FROM employees
+-- WHERE hire_date LIKE ('%87%')
+-- Ex 19
+-- SELECT first_name, job_id FROM employees
+-- WHERE manager_id IS NULL
+-- Ex 20
+-- SELECT first_name, salary, commission_pct FROM employees
+-- WHERE commission_pct IS NOT NULL
+-- ORDER BY salary DESC
+-- Ex 21
+-- SELECT first_name, salary, commission_pct FROM employees
+-- ORDER BY commission_pct DESC
+-- Ex 22
+-- SELECT first_name from EMPLOYEES
+-- WHERE first_name LIKE '__a%';
+-- Ex 23
+-- SELECT first_name, department_id, manager_id FROM employees
+-- WHERE first_name LIKE '%l%l%' AND (department_id=30 OR manager_id=102);
+-- Ex 24
+-- SELECT first_name, job_id, salary FROM employees
+-- WHERE job_id LIKE '%CLERK%' OR job_id LIKE '%REP%' AND salary NOT IN (1000, 2000, 3000);
+-- Ex 25
+SELECT department_id FROM employees
+WHERE manager_id IS NULL;
