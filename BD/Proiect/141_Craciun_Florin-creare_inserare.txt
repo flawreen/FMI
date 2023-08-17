@@ -1,0 +1,524 @@
+-- Ex 11
+
+CREATE TABLE ABONAMENTE
+(
+    Abonament_ID  INT
+        CONSTRAINT PKEY_UTILIZATOR PRIMARY KEY,
+    Tip_Abonament VARCHAR(50)
+        CONSTRAINT Tip_Abonament NOT NULL,
+    Pret          INT
+        CONSTRAINT Pret_Conducere NOT NULL,
+    Durata        INT
+        CONSTRAINT Durata_Abonament NOT NULL,
+    Reducere      INT
+);
+
+INSERT INTO ABONAMENTE
+VALUES (1, 'Gratis', 0, 0, 0);
+
+INSERT INTO ABONAMENTE
+VALUES (2, 'Standard', 25, 30, 0);
+
+INSERT INTO ABONAMENTE
+VALUES (3, 'Premium', 50, 30, 0);
+
+INSERT INTO ABONAMENTE
+VALUES (4, 'Familie', 75, 30, 5);
+
+INSERT INTO ABONAMENTE
+VALUES (5, 'Familie4K', 100, 30, 15);
+COMMIT;
+
+
+SELECT *
+FROM ABONAMENTE;
+
+CREATE TABLE UTILIZATOR
+(
+    Utilizator_ID INT
+        CONSTRAINT PKEY_ABONAMENT PRIMARY KEY,
+    Prenume       VARCHAR(100)
+        CONSTRAINT Prenume NOT NULL,
+    Nume          VARCHAR(50)
+        CONSTRAINT Nume NOT NULL,
+    Email         VARCHAR(50)
+        CONSTRAINT Email UNIQUE,
+    Parola        VARCHAR(50)
+        CONSTRAINT Parola NOT NULL,
+    Abonament_ID  INT,
+    CONSTRAINT FK_ABONAMENT FOREIGN KEY (Abonament_ID) REFERENCES ABONAMENTE (Abonament_ID)
+);
+
+INSERT INTO UTILIZATOR
+VALUES (1, 'Ion', 'Badea', 'ion.badea@gmail.com', 'ionBadEa14', 1);
+
+INSERT INTO UTILIZATOR
+VALUES (2, 'Octavian', 'Baltag', 'octavian.baltag@gmail.com', 'oktavian.baltg@gmail.com', 3);
+
+INSERT INTO UTILIZATOR
+VALUES (3, 'Paul', 'Bechet', 'bechet.paul@gmail.com', 'bechetpaulll9098', '4');
+
+INSERT INTO UTILIZATOR
+VALUES (4, 'Catalin', 'Boltasu', 'boltasu.catalin@gmail.com', 'catalinn7', 2);
+
+INSERT INTO UTILIZATOR
+VALUES (5, 'Mihai', 'Cernat', 'cernat.mihai@gmail.com', 'mihaiii9', 5);
+
+SELECT *
+FROM UTILIZATOR;
+
+CREATE TABLE METODE_DE_PLATA
+(
+    Plata_ID      INT
+        CONSTRAINT PKEY_PLATA PRIMARY KEY,
+    Tip_Plata     VARCHAR(20)
+        CONSTRAINT Tip_Plata NOT NULL,
+    Numar_Card    VARCHAR(50)
+        CONSTRAINT Numar_Card NOT NULL,
+    Cod_CVV       VARCHAR(20)
+        CONSTRAINT Cod_CVV UNIQUE,
+    Data_Expirare DATE
+        CONSTRAINT Data_Expirare NOT NULL,
+    Utilizator_ID INT,
+    CONSTRAINT FK_UTILIZATOR FOREIGN KEY (Utilizator_ID) REFERENCES Utilizator (Utilizator_ID)
+);
+
+INSERT INTO METODE_DE_PLATA
+VALUES (1, 'mastercard', '4867-0217-4985-2000', '505', TO_DATE('november-2026', 'mm-yy'), 1);
+
+INSERT INTO METODE_DE_PLATA
+VALUES (2, 'visa', '4490-5670-6378-5650', '614', TO_DATE('april-2024', 'mm-yy'), 2);
+
+INSERT INTO METODE_DE_PLATA
+VALUES (3, 'visa', '4318-4950-0056-4188', '302', TO_DATE('january-2025', 'mm-yy'), 3);
+
+INSERT INTO METODE_DE_PLATA
+VALUES (4, 'mastercard', '4726-0753-1627-2159', '427', TO_DATE('june-2024', 'mm-yy'), 4);
+
+INSERT INTO METODE_DE_PLATA
+VALUES (5, 'visa', '4134-7202-7223-2335', '117', TO_DATE('august-27', 'mm-yy'), 5);
+
+SELECT *
+FROM METODE_DE_PLATA;
+
+CREATE TABLE PROFILURI
+(
+    Profil_ID     INT
+        CONSTRAINT PKEY_Profil PRIMARY KEY,
+    Nume_Profil   VARCHAR(50)
+        CONSTRAINT Nume_Profil NOT NULL,
+    Utilizator_ID INT,
+    CONSTRAINT FK_UTILIZATOR_PROFIL FOREIGN KEY (Utilizator_ID) REFERENCES Utilizator (Utilizator_ID)
+);
+
+INSERT INTO PROFILURI
+VALUES (1, 'Ion', 1);
+
+INSERT INTO PROFILURI
+VALUES (2, 'Octavian', 2);
+
+INSERT INTO PROFILURI
+VALUES (3, 'Paul', 3);
+
+INSERT INTO PROFILURI
+VALUES (4, 'Catalin', 4);
+
+INSERT INTO PROFILURI
+VALUES (5, 'Mihai', 5);
+COMMIT;
+
+SELECT *
+FROM PROFILURI;
+
+CREATE TABLE FILME
+(
+    Film_ID      INT
+        CONSTRAINT PKEY_Film PRIMARY KEY,
+    Titlu        VARCHAR(100)
+        CONSTRAINT Titlu_Film NOT NULL,
+    Minute       INT
+        CONSTRAINT Minute_Film NOT NULL,
+    Descriere    VARCHAR(300)
+        CONSTRAINT Descriere_Film NOT NULL,
+    Data_Lansare DATE
+        CONSTRAINT Lansare_Film NOT NULL
+);
+
+INSERT INTO FILME
+VALUES (1, 'Se7en', 127,
+        'Doi detectivi, un începător și un veteran, vânează un ucigaș în serie care se folosește de cele șapte păcate de moarte ca motivații',
+        TO_DATE('15-september-1995', 'dd-month-yyyy'));
+
+INSERT INTO FILME
+VALUES (2, 'The Prestige', 130,
+        'După un accident tragic, doi magicieni de scenă din Londra anilor 1890 se angajează într-o luptă pentru a crea iluzia supremă, sacrificând tot ce au pentru a se păcăli unul pe celălalt',
+        TO_DATE('17-october-2006', 'dd-month-yyyy'));
+
+INSERT INTO FILME
+VALUES (3, 'Shutter Island', 138,
+        'Teddy Daniels și Chuck Aule, doi șerifi americani, sunt trimiși la un azil de pe o insulă îndepărtată pentru a investiga dispariția unui pacient, unde Teddy descoperă un adevăr șocant despre acest loc',
+        TO_DATE('13-february-2010', 'dd-month-yyyy'));
+
+INSERT INTO FILME
+VALUES (4, 'The Green Mile', 189,
+        'O poveste care se petrece în închisoarea din sudul țării, unde uriașul blând John are puterea misterioasă de a vindeca bolile oamenilor. Când gardianul principal, Paul, recunoaște darul lui John, încearcă să ajute la evitarea execuției condamnatului',
+        TO_DATE('6-december-1999', 'dd-month-yyyy'));
+
+INSERT INTO FILME
+VALUES (5, 'Memento', 113,
+        'Un bărbat cu pierderi de memorie pe termen scurt încearcă să dea de urma ucigașului soției sale',
+        TO_DATE('5-september-2000', 'dd-month-yyyy'));
+
+INSERT INTO FILME
+VALUES (0, 'Niciun Film', 0, 'N\A', TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+SELECT *
+FROM FILME;
+
+CREATE TABLE SERIALE
+(
+    Seriale_ID     INT
+        CONSTRAINT PKEY_Serial PRIMARY KEY,
+    Titlu          VARCHAR(100)
+        CONSTRAINT Titlu_Serial NOT NULL,
+    Numar_Sezoane  INT
+        CONSTRAINT Numar_Sezoane NOT NULL,
+    Numar_Episoade INT
+        CONSTRAINT Numar_Episoade NOT NULL,
+    Descriere      VARCHAR(300)
+        CONSTRAINT Descriere_Serial NOT NULL,
+    Data_Lansare   DATE
+        CONSTRAINT Lansare_Serial NOT NULL
+);
+
+INSERT INTO SERIALE
+VALUES (1, 'Square Mile of Murder', 1, 6,
+        'Acest serial dramatic în șase părți s-a bazat pe cartea cu același nume scrisă de Jack House. Descriind crime reale care au avut loc în zona Charing Cross din Glasgow. Fiecare episod prezintă o crimă misterioasă diferită',
+        TO_DATE('12-june-1980', 'dd-month-yyyy'));
+
+INSERT INTO SERIALE
+VALUES (2, 'Black Mirror', 6, 27,
+        'O serie antologică care explorează un multivers întortocheat de înaltă tehnologie în care cele mai mari inovații și cele mai întunecate instincte ale umanității se ciocnesc',
+        TO_DATE('4-december-2011', 'dd-month-yyyy'));
+
+INSERT INTO SERIALE
+VALUES (3, 'Manifest', 4, 62,
+        'Atunci când un avion de linie reapare brusc după ce a dispărut timp de cinci ani cei de la bord trebuie să se reintegreze în societate',
+        TO_DATE('23-september-2018', 'dd-month-yyyy'));
+
+INSERT INTO SERIALE
+VALUES (4, 'The Blacklist', 10, 218,
+        'Un nou profiler FBI, Elizabeth Keen își vede întreaga viață bulversată atunci când un criminal misterios Raymond Reddington care a scăpat de capturare timp de decenii se predă și insistă să vorbească doar cu ea',
+        TO_DATE('23-september-2013', 'dd-month-yyyy'));
+
+INSERT INTO SERIALE
+VALUES (5, 'True Detective', 4, 25,
+        'Serie antologică sezonieră în care investigațiile polițienești scot la iveală secretele personale și profesionale ale celor implicați, atât în interiorul, cât și în afara legii',
+        TO_DATE('12-january-2014', 'dd-month-yyyy'));
+
+INSERT INTO SERIALE
+VALUES (0, 'Niciun Serial', 0, 0, 'N\A', TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+SELECT *
+FROM SERIALE;
+
+CREATE TABLE DISTRIBUTIE
+(
+    Actor_ID INT
+        CONSTRAINT PKEY_Actor PRIMARY KEY,
+    Nume     VARCHAR(100)
+        CONSTRAINT Actor NOT NULL
+);
+
+INSERT INTO DISTRIBUTIE
+VALUES (1, 'Guy Pearce');
+
+INSERT INTO DISTRIBUTIE
+VALUES (2, 'Brad Pitt');
+
+INSERT INTO DISTRIBUTIE
+VALUES (3, 'Christian Bale');
+
+INSERT INTO DISTRIBUTIE
+VALUES (4, 'Leonardo DiCaprio');
+
+INSERT INTO DISTRIBUTIE
+VALUES (5, 'Tom Hanks');
+
+INSERT INTO DISTRIBUTIE
+VALUES (6, 'Mahershala Ali');
+
+INSERT INTO DISTRIBUTIE
+VALUES (7, 'George Baker');
+
+INSERT INTO DISTRIBUTIE
+VALUES (8, 'Hayley Atwell');
+
+INSERT INTO DISTRIBUTIE
+VALUES (9, 'Melissa Roxburgh');
+
+INSERT INTO DISTRIBUTIE
+VALUES (10, 'James Spader');
+
+SELECT *
+FROM DISTRIBUTIE;
+
+CREATE TABLE CARACTER
+(
+    Caracter_ID   INT
+        CONSTRAINT PKEY_Caracter PRIMARY KEY,
+    Film_ID       INT,
+    CONSTRAINT FK_Caracter_Film FOREIGN KEY (Film_ID) REFERENCES FILME (Film_ID),
+    Serial_ID     INT,
+    CONSTRAINT FK_Caracter_Serial FOREIGN KEY (Serial_ID) REFERENCES SERIALE (Seriale_ID),
+    Actor_ID      INT,
+    CONSTRAINT FK_Caracter_Actor FOREIGN KEY (Actor_ID) REFERENCES Distributie (Actor_ID),
+    Nume_Caracter VARCHAR(100)
+        CONSTRAINT Caracter NOT NULL
+);
+
+INSERT INTO CARACTER
+VALUES (1, 5, 0, 1, 'Leonard Shelby');
+
+INSERT INTO CARACTER
+VALUES (2, 1, 0, 2, 'David Mills');
+
+INSERT INTO CARACTER
+VALUES (3, 2, 0, 3, 'Alfred Borden');
+
+INSERT INTO CARACTER
+VALUES (4, 3, 0, 4, 'Teddy Daniels');
+
+INSERT INTO CARACTER
+VALUES (5, 4, 0, 5, 'Paul Edgecomb');
+
+INSERT INTO CARACTER
+VALUES (6, 0, 5, 6, 'Wayne Hays');
+
+INSERT INTO CARACTER
+VALUES (7, 0, 1, 7, 'Mr. Smith');
+
+INSERT INTO CARACTER
+VALUES (8, 0, 2, 8, 'Martha');
+
+INSERT INTO CARACTER
+VALUES (9, 0, 3, 9, 'Michaela Stone');
+
+INSERT INTO CARACTER
+VALUES (10, 0, 4, 10, 'Raymond Reddington');
+
+SELECT *
+FROM CARACTER;
+
+CREATE TABLE ISTORIC_VIZIONARI
+(
+    Istoric_Vizionari_ID INT
+        CONSTRAINT PKEY_Istoric PRIMARY KEY,
+    Film_ID              INT,
+    CONSTRAINT FK_Istoric_Film FOREIGN KEY (Film_ID) REFERENCES FILME (Film_ID),
+    Serial_ID            INT,
+    CONSTRAINT FK_Istoric_Serial FOREIGN KEY (Serial_ID) REFERENCES SERIALE (Seriale_ID),
+    Utilizator_ID        INT,
+    CONSTRAINT FK_Istoric_Utilizator FOREIGN KEY (Utilizator_ID) REFERENCES Utilizator (Utilizator_ID),
+    Data_Vizioarii       DATE
+        CONSTRAINT Istoric_Data NOT NULL
+);
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (1, 1, 0, 1, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (2, 2, 0, 2, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (3, 3, 0, 3, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (4, 4, 0, 4, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (5, 5, 0, 5, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (6, 0, 1, 1, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (7, 0, 2, 2, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (8, 0, 3, 3, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (9, 0, 4, 4, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+INSERT INTO ISTORIC_VIZIONARI
+VALUES (10, 0, 5, 5, TO_DATE('7-july-2023', 'dd-month-yyyy'));
+
+SELECT *
+FROM ISTORIC_VIZIONARI;
+
+CREATE TABLE FAVORITE
+(
+    Favorite_ID   INT
+        CONSTRAINT PKEY_Favorite PRIMARY KEY,
+    Film_ID       INT,
+    CONSTRAINT FK_Favorite_Film FOREIGN KEY (Film_ID) REFERENCES FILME (Film_ID),
+    Serial_ID     INT,
+    CONSTRAINT FK_Favorite_Serial FOREIGN KEY (Serial_ID) REFERENCES SERIALE (Seriale_ID),
+    Utilizator_ID INT,
+    CONSTRAINT FK_Favorite_Utilizator FOREIGN KEY (Utilizator_ID) REFERENCES Utilizator (Utilizator_ID)
+);
+
+INSERT INTO FAVORITE
+VALUES (1, 1, 0, 1);
+
+INSERT INTO FAVORITE
+VALUES (2, 2, 0, 2);
+
+INSERT INTO FAVORITE
+VALUES (3, 3, 0, 3);
+
+INSERT INTO FAVORITE
+VALUES (4, 4, 0, 4);
+
+INSERT INTO FAVORITE
+VALUES (5, 5, 0, 5);
+
+INSERT INTO FAVORITE
+VALUES (6, 0, 1, 1);
+
+INSERT INTO FAVORITE
+VALUES (7, 0, 2, 2);
+
+INSERT INTO FAVORITE
+VALUES (8, 0, 3, 3);
+
+INSERT INTO FAVORITE
+VALUES (9, 0, 4, 4);
+
+INSERT INTO FAVORITE
+VALUES (10, 0, 5, 5);
+
+SELECT *
+FROM FAVORITE;
+
+CREATE TABLE GENURI
+(
+    Gen_ID    INT
+        CONSTRAINT PKEY_Gen PRIMARY KEY,
+    Film_ID   INT,
+    CONSTRAINT FK_Gen_Film FOREIGN KEY (Film_ID) REFERENCES FILME (Film_ID),
+    Serial_ID INT,
+    CONSTRAINT FK_Gen_Serial FOREIGN KEY (Serial_ID) REFERENCES SERIALE (Seriale_ID),
+    Nume_Gen  VARCHAR(30)
+        CONSTRAINT Gen NOT NULL
+);
+
+INSERT INTO GENURI
+VALUES (1, 1, 0, 'Action');
+
+INSERT INTO GENURI
+VALUES (2, 2, 0, 'Adventure');
+
+INSERT INTO GENURI
+VALUES (3, 3, 0, 'Action');
+
+INSERT INTO GENURI
+VALUES (4, 4, 0, 'Mystery');
+
+INSERT INTO GENURI
+VALUES (5, 5, 0, 'Horror');
+
+INSERT INTO GENURI
+VALUES (6, 0, 1, 'Thriller');
+
+INSERT INTO GENURI
+VALUES (7, 0, 2, 'Comedy');
+
+INSERT INTO GENURI
+VALUES (8, 0, 3, 'Horror');
+
+INSERT INTO GENURI
+VALUES (9, 0, 4, 'Action');
+
+INSERT INTO GENURI
+VALUES (10, 0, 5, 'Adventure');
+
+SELECT *
+FROM GENURI;
+
+CREATE TABLE RECENZII
+(
+    Recenzie_ID   INT
+        CONSTRAINT PKEY_Recenzie PRIMARY KEY,
+    Film_ID       INT,
+    CONSTRAINT FK_Recenzie_Film FOREIGN KEY (Film_ID) REFERENCES FILME (Film_ID),
+    Serial_ID     INT,
+    CONSTRAINT FK_Recenzie_Serial FOREIGN KEY (Serial_ID) REFERENCES SERIALE (Seriale_ID),
+    Utilizator_ID INT,
+    CONSTRAINT FK_Recenzie_Utilizator FOREIGN KEY (Utilizator_ID) REFERENCES Utilizator (Utilizator_ID),
+    Evaluare      INT
+        CONSTRAINT Nota_Evaluare NOT NULL,
+    Text_Evaluare VARCHAR(300)
+        CONSTRAINT Text_Evaluare NOT NULL
+);
+
+INSERT INTO RECENZII
+VALUES (1, 1, 0, 1, 4,
+        'Poate că toate trupele fantastice de aici sunt generice,  dar ei știu asta și poartă un zâmbet de satisfacție');
+
+INSERT INTO RECENZII
+VALUES (2, 2, 0, 2, 5,
+        'Cavill ar putea pleca într-o notă relativ bună, datorită unui al treilea sezon mai strâns și mai concentrat, cel puțin inițial, decât a oferit cel de-al doilea');
+
+INSERT INTO RECENZII
+VALUES (3, 3, 0, 3, 3,
+        'Cu intrigi care încep în sfârșit să se coaguleze,  acesta este cel mai strâns și mai plin de acțiune sezon din The Witcher de până acum');
+
+INSERT INTO RECENZII
+VALUES (4, 4, 0, 4, 2, 'O continuare mediocră a unei francize care își pierde rapid farmecul');
+
+INSERT INTO RECENZII
+VALUES (5, 5, 0, 5, 5,
+        'S-a terminat. Totul este foarte rău. Începând de la selecția noilor actori și terminând cu scenariul');
+
+INSERT INTO RECENZII
+VALUES (6, 0, 1, 1, 1, 'Departe de cărți');
+
+INSERT INTO RECENZII
+VALUES (7, 0, 2, 2, 4, 'Poate mai ambițios,  dar și mai puțin reușit,  la care se adaugă plecarea lui Cavill');
+
+INSERT INTO RECENZII
+VALUES (8, 0, 3, 3, 5,
+        'Din păcate, scenariștii petrec mult prea mult timp dezvoltând scenariul și tind să se bazeze prea des pe răsturnări de situație stupide și pe tropi de spionaj exagerat.');
+
+INSERT INTO RECENZII
+VALUES (9, 0, 5, 5, 5,
+        'Cvartetul de actrițe experimentate își aduc jocul lor de nivel A pentru a face ca acest film de împlinire a dorințelor, film de bun-simț, să fie foarte distractiv de urmărit.');
+
+INSERT INTO RECENZII
+VALUES (10, 0, 4, 4, 4,
+        'Nu-mi vine să cred că acest film există... M-am simțit foarte jenată în mare parte din timp pentru aceste femei');
+COMMIT;
+SELECT *
+FROM RECENZII;
+
+SELECT *
+FROM PROFILURI;
+
+-- Ex 10
+
+CREATE SEQUENCE ADD1
+    START WITH 6
+    INCREMENT BY 1
+    MAXVALUE 50
+    NOCYCLE;
+CREATE SEQUENCE ADD2
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 5
+    NOCYCLE;
+
+INSERT INTO PROFILURI
+VALUES (ADD1.NEXTVAL, 'Andrei', ADD2.NEXTVAL);
+COMMIT;
