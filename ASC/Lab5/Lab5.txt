@@ -1,0 +1,50 @@
+Proceduri in limbaj de asamblare x86
+
+Cadrul de apel este construit prin intermediul stivei
+stiva:  push x  -> exista doar pushl
+        pop x   -> exista doar popl
+
+stiva este gestionata de 
+        %esp - stack pointer
+    Pe stiva putem pune doar elemente de 4B.
+    => %esp se modifica din 4 in 4
+
+stiva scade spre valori mai mari
+
+!!!! %esp e adresa din varf, 0(%esp) este elementul din varf
+                             4(%esp) al doilea element din varf s.a.m.d.
+
+Ce inseamna un 'push x' de fapt?
+sub $4, %esp
+mov x, 0(%esp)
+
+Ce inseamna 'pop'?
+add $4, %esp
+
+Ce inseamna 'pop x'?
+mov 0(%esp), x
+add $4, %esp
+
+
+Conventii de implementare a unei proceduri
+1. argumentele procedurilor trebuie date prin stiva, de la dreapta la stanga.
+2. valorile returnate de procedura se vor pune in ordine, in registrii %eax, %ecx, %edx, iar apoi pe stiva.
+
+Apelul procedurilor
+- instructiunea call
+    call <label>:
+        push %eip
+        jmp <label>
+- instructiunea ret
+        jmp 0(%eip)
+        pop
+
+3. registrii %esp, %ebp, %ebx, %esi, %edi trebuie restaurati in urma apelului
+   registrii %eax, %ecx, %edx NU trebuie restaurati
+
+4. Registrul %ebp trebuie utilizat pentru accesare constanta in cadrul de apel
+
+Suma a doua numere -> ex1.s
+
+Problema: 
+
