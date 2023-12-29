@@ -1,4 +1,3 @@
--- Craciun Florin Cristian, 141, Sb. 1, exam241
 -- Ex 1a
 select c.data_plecare, e.denumire, a.nr_inmatriculare
 from calendar c
