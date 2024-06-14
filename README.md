@@ -11,7 +11,7 @@
 - Second Year
     - [Fundamental Algorithms]() 😓
     - [Web Apps Development .NET](https://github.com/flawreen/Collective-Knowledge) 😀
-    - [Probabilities]() 🥴
+    - [Probabilities](https://github.com/flawreen/University-FMI/tree/main/PS) 🥴
     - [Advanced Algorithms](https://github.com/flawreen/University-FMI/tree/main/AA) 😤
     - [Advanced Object Oriented Programing](https://github.com/flawreen/Bibliohub) 😀
     - [Software Development Methods]() 🤔
