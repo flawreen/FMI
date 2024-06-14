@@ -11,6 +11,7 @@ mai bn mergeati la poli ca e mai usor
 - Second Year
     - [Fundamental Algorithms](https://github.com/flawreen/INFO-UNIBUC/tree/main/AF) 😓 temele (infoarena si alte siteuri) sunt in python (care da eroare pe infoarena) dar la colocviu doar c++ se incadreaza la timp (hackerrank)
     - [Web Apps Development .NET](https://github.com/flawreen/Collective-Knowledge) 😀
+    - [Operating Systems](https://github.com/flawreen/INFO-UNIBUC/tree/main/SO) ☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️ au picat 112 din 120 bafta
     - [Probabilities](https://github.com/flawreen/University-FMI/tree/main/PS) 🥴
     - [Advanced Algorithms](https://github.com/flawreen/University-FMI/tree/main/AA) 😤
     - [Advanced Object Oriented Programing](https://github.com/flawreen/Bibliohub) 😀
