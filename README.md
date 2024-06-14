@@ -1,6 +1,6 @@
 ## Faculty of Mathematics and Computer Science, University of Bucharest
 ### Computer Science
-
+mai bn mergeati la poli ca e mai usor
 - First year
     - [Algorithms Programming](https://github.com/flawreen/University-FMI/tree/main/Python) 😀
     - [Computer Systems' Architecture](https://github.com/flawreen/University-FMI/tree/main/ASC) 🙃
