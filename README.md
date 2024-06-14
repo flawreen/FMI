@@ -12,8 +12,8 @@
     - [Fundamental Algorithms]() 😓
     - [Web Apps Development .NET](https://github.com/flawreen/Collective-Knowledge) 😀
     - [Probabilities]() 🥴
-    - [Advanced Algorithms]() 😤
+    - [Advanced Algorithms](https://github.com/flawreen/University-FMI/tree/main/AA) 😤
     - [Advanced Object Oriented Programing](https://github.com/flawreen/Bibliohub) 😀
     - [Software Development Methods]() 🤔
-    - [Artificial Intelligence]() 🤒😵‍💫😷🤢😖
-    - [Computer Networks]() 💊
+    - [Artificial Intelligence](https://github.com/flawreen/University-FMI/tree/main/IA) 🤒😵‍💫😷🤢😖
+    - [Computer Networks](https://github.com/flawreen/University-FMI/tree/main/RC) 💊
