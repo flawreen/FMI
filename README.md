@@ -9,7 +9,7 @@ mai bn mergeati la poli ca e mai usor
     - [Web Development](https://github.com/flawreen/University-FMI/tree/main/TW) 🥱
     - [Databases](https://github.com/flawreen/University-FMI/tree/main/BD) 🥱
 - Second Year
-    - [Fundamental Algorithms]() 😓
+    - [Fundamental Algorithms](https://github.com/flawreen/INFO-UNIBUC/tree/main/AF) 😓 temele sunt in python dar la colocviu doar c++ se incadreaza la timp (hackerrank)
     - [Web Apps Development .NET](https://github.com/flawreen/Collective-Knowledge) 😀
     - [Probabilities](https://github.com/flawreen/University-FMI/tree/main/PS) 🥴
     - [Advanced Algorithms](https://github.com/flawreen/University-FMI/tree/main/AA) 😤
