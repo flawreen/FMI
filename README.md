@@ -15,6 +15,6 @@ mai bn mergeati la poli ca e mai usor
     - [Probabilities](https://github.com/flawreen/University-FMI/tree/main/PS) 🥴
     - [Advanced Algorithms](https://github.com/flawreen/University-FMI/tree/main/AA) 😤
     - [Advanced Object Oriented Programing](https://github.com/flawreen/Bibliohub) 😀
-    - [Software Development Methods]() 🤔
+    - [Software Development Methods](https://github.com/flawreen/INFO-UNIBUC/blob/main/MDS/mds.md) 🤔
     - [Artificial Intelligence](https://github.com/flawreen/University-FMI/tree/main/IA) 🤒😵‍💫😷🤢😖
     - [Computer Networks](https://github.com/flawreen/University-FMI/tree/main/RC) 💊
